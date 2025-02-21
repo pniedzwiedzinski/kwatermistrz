@@ -1,14 +1,17 @@
 "use client";
-import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import { LogOut, LogIn } from "lucide-react";
+import { useSetAtom } from "jotai";
+import { authStore } from "@/store/auth";
 
 import { ModeToggle } from "@/components/theme-switcher";
 
 export default function TopBar() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const handleAuth = () => {
-    setIsLoggedIn(!isLoggedIn);
+  // const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const setIsLoggedIn = useSetAtom(authStore);
+  const logout = () => {
+    setIsLoggedIn({ isLoggedIn: false, access_token: "" });
   };
   return (
     <nav className="shadow-sm">
@@ -17,18 +20,10 @@ export default function TopBar() {
         <div className="flex items-center gap-4">
           <Button
             variant="outline"
-            onClick={handleAuth}
+            onClick={logout}
             className="flex items-center gap-2"
           >
-            {isLoggedIn ? (
-              <>
-                <LogOut className="h-4 w-4" /> Logout
-              </>
-            ) : (
-              <>
-                <LogIn className="h-4 w-4" /> Login
-              </>
-            )}
+            <LogOut className="h-4 w-4" /> Logout
           </Button>
           <ModeToggle />
         </div>
