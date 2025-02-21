@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { LogOut, LogIn } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { useSetAtom } from "jotai";
 import { authStore } from "@/store/auth";
 
@@ -23,7 +23,8 @@ export default function TopBar() {
             onClick={logout}
             className="flex items-center gap-2"
           >
-            <LogOut className="h-4 w-4" /> Logout
+            <LogOut className="h-4 w-4" />
+            Wyloguj
           </Button>
           <ModeToggle />
         </div>

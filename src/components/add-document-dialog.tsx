@@ -9,12 +9,35 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Upload } from "lucide-react";
+import { DocumentItem } from "./cardgrid";
+
+export interface ResponseData {
+  formOfPayment: string;
+  documentNumber: string;
+  cutomerNIP: string;
+  date: string;
+  total: number;
+  items: DocumentItem[];
+}
 
 interface AddDocumentDialogProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
-  onSubmit: (file: File) => void;
+  onSubmit: (data: ResponseData) => void;
 }
+
+const toBase64 = (file: File) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      const result = reader.result?.toString() || "";
+      const base64String = result.replace("data:", "").replace(/^.+,/, "");
+      resolve(base64String);
+    };
+    // reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+  });
 
 export default function AddDocumentDialog({
   isOpen,
@@ -29,9 +52,23 @@ export default function AddDocumentDialog({
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (selectedFile) {
-      onSubmit(selectedFile);
+      const response = await fetch(
+        "http://localhost:9999/.netlify/functions/ocr-axios",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            mime_type: selectedFile.type,
+            data: await toBase64(selectedFile),
+          }),
+        }
+      );
+      const responseData = await response.json();
+      const documentData = JSON.parse(
+        responseData.candidates[0].content.parts[0].text
+      );
+      onSubmit(documentData);
       setSelectedFile(null);
       onOpenChange(false);
     }
@@ -65,7 +102,7 @@ export default function AddDocumentDialog({
                 <p className="text-sm text-gray-500 mt-1">
                   {selectedFile
                     ? `${(selectedFile.size / 1024 / 1024).toFixed(2)} MB`
-                    : "PDF, JPG, PNG (max. 10MB)"}
+                    : "JPG (max. 10MB)"}
                 </p>
               </div>
             </label>

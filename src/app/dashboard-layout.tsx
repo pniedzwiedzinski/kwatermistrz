@@ -9,6 +9,7 @@ import CardGrid, { DocumentData } from "@/components/cardgrid";
 import AddDocumentDialog from "@/components/add-document-dialog";
 import { useAtomValue } from "jotai";
 import { authStore } from "@/store/auth";
+import { ResponseData } from "@/components/add-document-dialog";
 
 import Login from "@/components/login";
 
@@ -24,26 +25,13 @@ const DashboardLayout = () => {
       description: "Sprawności",
       value: 79.99,
       metadata: {
-        Created: "2024-02-21",
-        Status: "Active",
-        Category: "Reports",
-        Owner: "John Doe",
+        formOfPayment: "",
+        documentNumber: "",
+        cutomerNIP: "",
+        date: "",
+        total: 79.99,
       },
-      items: [
-        {
-          id: 1,
-          name: "Monthly Report",
-          status: "Complete",
-          date: "2024-02-20",
-        },
-        { id: 2, name: "Weekly Stats", status: "Pending", date: "2024-02-21" },
-        {
-          id: 3,
-          name: "Daily Metrics",
-          status: "In Progress",
-          date: "2024-02-21",
-        },
-      ],
+      items: [],
     },
   ]);
 
@@ -52,20 +40,22 @@ const DashboardLayout = () => {
     setIsDialogOpen(true);
   };
 
-  const handleFileSubmit = (file: File) => {
+  const handleFileSubmit = (response: ResponseData) => {
+    const { formOfPayment, documentNumber, cutomerNIP, date, total, items } =
+      response;
     const newCard: DocumentData = {
       id: cards.length + 1,
-      title: file.name,
+      title: response.documentNumber,
       description: `Uploaded on ${new Date().toLocaleDateString()}`,
-      value: 0, // You might want to set this based on file processing
+      value: total, // You might want to set this based on file processing
       metadata: {
-        Created: new Date().toISOString().split("T")[0],
-        Status: "Processing",
-        Category: "Uncategorized",
-        Owner: "Unassigned",
-        Size: `${(file.size / 1024 / 1024).toFixed(2)} MB`,
+        formOfPayment,
+        documentNumber,
+        cutomerNIP,
+        date,
+        total,
       },
-      items: [],
+      items,
     };
     setCards([...cards, newCard]);
   };
@@ -97,7 +87,7 @@ const DashboardLayout = () => {
               isOpen={isDialogOpen}
               onOpenChange={setIsDialogOpen}
               title={selectedCard?.title}
-              metadata={selectedCard?.metadata || {}}
+              metadata={selectedCard?.metadata}
               items={selectedCard?.items || []}
             />
             <AddDocumentDialog

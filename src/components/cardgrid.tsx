@@ -7,11 +7,19 @@ import {
   CardContent,
 } from "@/components/ui/card";
 
-interface DocumentItem {
-  id: number;
+export interface DocumentItem {
+  quantity: number;
   name: string;
-  status: string;
+  itemTotalPrice: number;
+  category: string;
+}
+
+export interface Metadata {
+  formOfPayment: string;
+  documentNumber: string;
+  cutomerNIP: string;
   date: string;
+  total: number;
 }
 
 export interface DocumentData {
@@ -19,7 +27,7 @@ export interface DocumentData {
   title: string;
   description: string;
   value: number;
-  metadata: Record<string, string>;
+  metadata: Metadata | unknown;
   items: DocumentItem[];
 }
 

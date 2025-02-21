@@ -13,13 +13,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-
-interface Item {
-  id: number;
-  name: string;
-  status: string;
-  date: string;
-}
+import { DocumentItem } from "./cardgrid";
+import Image from "next/image";
 
 interface Metadata {
   [key: string]: string;
@@ -29,8 +24,8 @@ interface FileViewProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   title?: string;
-  metadata: Metadata;
-  items: Item[];
+  metadata: Metadata | unknown;
+  items: DocumentItem[];
   imageUrl?: string;
 }
 
@@ -44,26 +39,28 @@ export default function FileView({
 }: FileViewProps) {
   const FileContent = () => (
     <div className="space-y-6">
-      {/* Image */}
       <div className="w-full h-48 bg-gray-100 dark:bg-gray-900 rounded-lg flex items-center justify-center">
-        <img
+        <Image
           src={imageUrl}
           alt="Card preview"
           className="rounded-lg object-cover"
         />
       </div>
 
-      {/* Metadata */}
-      <div className="grid grid-cols-2 gap-4">
-        {Object.entries(metadata).map(([key, value]) => (
-          <div key={key} className="bg-gray-50 dark:bg-gray-800 p-3 rounded-lg">
-            <span className="text-sm font-medium text-gray-500">{key}</span>
-            <p>{value}</p>
-          </div>
-        ))}
-      </div>
+      {!!metadata && (
+        <div className="grid grid-cols-2 gap-4">
+          {Object.entries(metadata).map(([key, value]) => (
+            <div
+              key={key}
+              className="bg-gray-50 dark:bg-gray-800 p-3 rounded-lg"
+            >
+              <span className="text-sm font-medium text-gray-500">{key}</span>
+              <p>{value}</p>
+            </div>
+          ))}
+        </div>
+      )}
 
-      {/* Items Table */}
       <div className="rounded-lg border">
         <Table>
           <TableHeader>
@@ -75,10 +72,10 @@ export default function FileView({
           </TableHeader>
           <TableBody>
             {items.map((item) => (
-              <TableRow key={item.id}>
+              <TableRow key={item.name}>
                 <TableCell>{item.name}</TableCell>
-                <TableCell>{item.status}</TableCell>
-                <TableCell>{item.date}</TableCell>
+                <TableCell>{item.category}</TableCell>
+                <TableCell>{item.itemTotalPrice}</TableCell>
               </TableRow>
             ))}
           </TableBody>
