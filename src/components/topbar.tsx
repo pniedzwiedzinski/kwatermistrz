@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { LogOut } from "lucide-react";
+import { LogOut, BookPlus } from "lucide-react";
 import { useSetAtom } from "jotai";
 import { authStore } from "@/store/auth";
 
@@ -16,7 +16,10 @@ export default function TopBar() {
   return (
     <nav className="shadow-sm">
       <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-        <h1 className="text-xl font-bold">Kwatermistrz</h1>
+        <div className="flex items-center gap-4">
+          <BookPlus />
+          <h1 className="text-xl font-bold">Kwatermistrz</h1>
+        </div>
         <div className="flex items-center gap-4">
           <Button
             variant="outline"
