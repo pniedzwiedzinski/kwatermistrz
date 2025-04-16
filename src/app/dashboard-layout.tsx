@@ -17,7 +17,6 @@ const DashboardLayout = () => {
   const [selectedCard, setSelectedCard] = useState<DocumentData | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-  const { isLoggedIn } = useAtomValue(authStore);
   const [cards, setCards] = useState<DocumentData[]>([
     {
       id: 1,
@@ -62,20 +61,18 @@ const DashboardLayout = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      {isLoggedIn ? (
-        <>
-          <TopBar />
-          <main className="max-w-7xl mx-auto px-4 py-8">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold">Twoje faktury</h2>
-              <Button
-                onClick={() => setIsAddDialogOpen(true)}
-                className="flex items-center gap-2"
-              >
-                <PlusCircle className="h-4 w-4" />
-                Dodaj fakturę
-              </Button>
-            </div>
+      <TopBar />
+      <main className="max-w-7xl mx-auto px-4 py-8">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold">Twoje faktury</h2>
+          <Button
+            onClick={() => setIsAddDialogOpen(true)}
+            className="flex items-center gap-2"
+          >
+            <PlusCircle className="h-4 w-4" />
+            Dodaj fakturę
+          </Button>
+        </div>
 
             <CardGrid
               cards={cards}
@@ -83,23 +80,19 @@ const DashboardLayout = () => {
               onCardSelect={handleCardSelect}
             />
 
-            <FileView
-              isOpen={isDialogOpen}
-              onOpenChange={setIsDialogOpen}
-              title={selectedCard?.title}
-              metadata={selectedCard?.metadata}
-              items={selectedCard?.items || []}
-            />
-            <AddDocumentDialog
-              isOpen={isAddDialogOpen}
-              onOpenChange={setIsAddDialogOpen}
-              onSubmit={handleFileSubmit}
-            />
-          </main>
-        </>
-      ) : (
-        <Login />
-      )}
+        <FileView
+          isOpen={isDialogOpen}
+          onOpenChange={setIsDialogOpen}
+          title={selectedCard?.title}
+          metadata={selectedCard?.metadata}
+          items={selectedCard?.items || []}
+        />
+        <AddDocumentDialog
+          isOpen={isAddDialogOpen}
+          onOpenChange={setIsAddDialogOpen}
+          onSubmit={handleFileSubmit}
+        />
+      </main>
     </div>
   );
 };
