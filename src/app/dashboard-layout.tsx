@@ -2,7 +2,6 @@
 
 import React from "react";
 import { useState } from "react";
-import { useIsClient, useLocalStorage } from "@uidotdev/usehooks";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import TopBar from "@/components/topbar";
@@ -12,6 +11,7 @@ import AddDocumentDialog from "@/components/add-document-dialog";
 import { useAtomValue } from "jotai";
 import { authStore } from "@/store/auth";
 import { ResponseData } from "@/components/add-document-dialog";
+import { useLocalStorage } from "@/lib/utils";
 
 import Login from "@/components/login";
 
@@ -20,12 +20,6 @@ const DashboardLayout = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const { isLoggedIn } = useAtomValue(authStore);
-  const isClient = useIsClient();
-
-  if (isClient === false) {
-    return null;
-  }
-  //eslint-disable-next-line react-hooks/rules-of-hooks
   const [cards, setCards] = useLocalStorage<DocumentData[]>("cards", []);
 
   const handleCardSelect = (card: DocumentData) => {
