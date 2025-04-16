@@ -14,7 +14,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { DocumentItem } from "./cardgrid";
-import Image from "next/image";
+// import Image from "next/image";
 
 interface Metadata {
   [key: string]: string;
@@ -35,8 +35,8 @@ export default function FileView({
   title,
   metadata,
   items,
-  imageUrl = "/api/placeholder/400/320",
-}: FileViewProps) {
+}: // imageUrl = "/api/placeholder/400/320",
+FileViewProps) {
   const FileContent = () => (
     <div className="space-y-6">
       <div className="w-full h-48 bg-gray-100 dark:bg-gray-900 rounded-lg flex items-center justify-center">

@@ -1,7 +1,8 @@
 "use client";
+
 import React from "react";
 import { useState } from "react";
-import { useLocalStorage } from "@uidotdev/usehooks";
+import { useIsClient, useLocalStorage } from "@uidotdev/usehooks";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import TopBar from "@/components/topbar";
@@ -19,6 +20,12 @@ const DashboardLayout = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const { isLoggedIn } = useAtomValue(authStore);
+  const isClient = useIsClient();
+
+  if (isClient === false) {
+    return null;
+  }
+  //eslint-disable-next-line react-hooks/rules-of-hooks
   const [cards, setCards] = useLocalStorage<DocumentData[]>("cards", []);
 
   const handleCardSelect = (card: DocumentData) => {
