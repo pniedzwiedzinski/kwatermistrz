@@ -75,7 +75,7 @@ export default function FileView({
               <TableRow key={item.name}>
                 <TableCell>{item.name}</TableCell>
                 <TableCell>{item.category}</TableCell>
-                <TableCell>{item.itemTotalPrice}</TableCell>
+                <TableCell>{item.price}</TableCell>
               </TableRow>
             ))}
           </TableBody>

@@ -66,11 +66,7 @@ export default function AddDocumentDialog({
         documentNumber: responseData.document_number,
         date: responseData.date,
         total: responseData.total_cost,
-        items: responseData.items.map((item: any) => ({
-          name: item.name,
-          price: item.price,
-          category: item.category,
-        })),
+        items: responseData.items,
       };
       onSubmit(documentData);
       setSelectedFile(null);

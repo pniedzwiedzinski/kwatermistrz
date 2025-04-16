@@ -27,7 +27,6 @@ const DashboardLayout = () => {
       metadata: {
         formOfPayment: "",
         documentNumber: "",
-        cutomerNIP: "",
         date: "",
         total: 79.99,
       },
@@ -41,8 +40,7 @@ const DashboardLayout = () => {
   };
 
   const handleFileSubmit = (response: ResponseData) => {
-    const { formOfPayment, documentNumber, cutomerNIP, date, total, items } =
-      response;
+    const { formOfPayment, documentNumber, date, total, items } = response;
     const newCard: DocumentData = {
       id: cards.length + 1,
       title: response.documentNumber,
@@ -51,7 +49,6 @@ const DashboardLayout = () => {
       metadata: {
         formOfPayment,
         documentNumber,
-        cutomerNIP,
         date,
         total,
       },
