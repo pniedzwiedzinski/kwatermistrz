@@ -66,7 +66,7 @@ export default function AddDocumentDialog({
         documentNumber: responseData.document_number,
         date: responseData.date,
         total: responseData.total_cost,
-        items: responseData.items,
+        items: responseData.document_items,
       };
       onSubmit(documentData);
       setSelectedFile(null);
