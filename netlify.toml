@@ -1,2 +1,7 @@
 [functions]
   node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/api/*"
+  to = "https://srv3.tail4c1188.ts.net/:splat"
+  status = 200

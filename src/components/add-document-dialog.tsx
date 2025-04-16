@@ -14,7 +14,6 @@ import { DocumentItem } from "./cardgrid";
 export interface ResponseData {
   formOfPayment: string;
   documentNumber: string;
-  cutomerNIP: string;
   date: string;
   total: number;
   items: DocumentItem[];
@@ -54,20 +53,25 @@ export default function AddDocumentDialog({
 
   const handleSubmit = async () => {
     if (selectedFile) {
-      const response = await fetch(
-        "http://localhost:9999/.netlify/functions/ocr-axios",
-        {
-          method: "POST",
-          body: JSON.stringify({
-            mime_type: selectedFile.type,
-            data: await toBase64(selectedFile),
-          }),
-        }
-      );
+      const response = await fetch("/api", {
+        method: "POST",
+        body: JSON.stringify({
+          mime_type: selectedFile.type,
+          data: await toBase64(selectedFile),
+        }),
+      });
       const responseData = await response.json();
-      const documentData = JSON.parse(
-        responseData.candidates[0].content.parts[0].text
-      );
+      const documentData: ResponseData = {
+        formOfPayment: responseData.pay_by_cash ? "cash" : "bank",
+        documentNumber: responseData.document_number,
+        date: responseData.date,
+        total: responseData.total_cost,
+        items: responseData.items.map((item: any) => ({
+          name: item.name,
+          price: item.price,
+          category: item.category,
+        })),
+      };
       onSubmit(documentData);
       setSelectedFile(null);
       onOpenChange(false);

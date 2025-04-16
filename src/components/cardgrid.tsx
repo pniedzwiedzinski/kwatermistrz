@@ -8,9 +8,8 @@ import {
 } from "@/components/ui/card";
 
 export interface DocumentItem {
-  quantity: number;
   name: string;
-  itemTotalPrice: number;
+  price: number;
   category: string;
 }
 
