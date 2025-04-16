@@ -40,11 +40,11 @@ export default function FileView({
   const FileContent = () => (
     <div className="space-y-6">
       <div className="w-full h-48 bg-gray-100 dark:bg-gray-900 rounded-lg flex items-center justify-center">
-        <Image
+        {/* <Image
           src={imageUrl}
           alt="Card preview"
           className="rounded-lg object-cover"
-        />
+        /> */}
       </div>
 
       {!!metadata && (
@@ -55,7 +55,7 @@ export default function FileView({
               className="bg-gray-50 dark:bg-gray-800 p-3 rounded-lg"
             >
               <span className="text-sm font-medium text-gray-500">{key}</span>
-              <p>{value}</p>
+              <p>{key == "total" ? `${value.toFixed(2)} zł` : value}</p>
             </div>
           ))}
         </div>
@@ -65,9 +65,9 @@ export default function FileView({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Date</TableHead>
+              <TableHead>Nazwa produktu</TableHead>
+              <TableHead>Kategoria</TableHead>
+              <TableHead>Cena</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

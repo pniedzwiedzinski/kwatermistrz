@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { useState } from "react";
+import { useLocalStorage } from "@uidotdev/usehooks";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import TopBar from "@/components/topbar";
@@ -18,21 +19,7 @@ const DashboardLayout = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const { isLoggedIn } = useAtomValue(authStore);
-  const [cards, setCards] = useState<DocumentData[]>([
-    {
-      id: 1,
-      title: "FV 12/2/2025",
-      description: "Sprawności",
-      value: 79.99,
-      metadata: {
-        formOfPayment: "",
-        documentNumber: "",
-        date: "",
-        total: 79.99,
-      },
-      items: [],
-    },
-  ]);
+  const [cards, setCards] = useLocalStorage<DocumentData[]>("cards", []);
 
   const handleCardSelect = (card: DocumentData) => {
     setSelectedCard(card);
@@ -74,11 +61,19 @@ const DashboardLayout = () => {
               </Button>
             </div>
 
-            <CardGrid
-              cards={cards}
-              selectedCard={selectedCard}
-              onCardSelect={handleCardSelect}
-            />
+            {cards.length > 0 ? (
+              <CardGrid
+                cards={cards}
+                selectedCard={selectedCard}
+                onCardSelect={handleCardSelect}
+              />
+            ) : (
+              <div className="text-center">
+                <p className="text-lg text-gray-500">
+                  Nie masz jeszcze żadnych faktur.
+                </p>
+              </div>
+            )}
 
             <FileView
               isOpen={isDialogOpen}
