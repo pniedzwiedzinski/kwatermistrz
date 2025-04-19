@@ -61,6 +61,28 @@ FileViewProps) {
         </div>
       )}
 
+      <div className="rounded-lg border p-4"></div>
+      <h3 className="text-lg font-medium mb-4">Podsumowanie</h3>
+      <div className="grid grid-cols-2 gap-4">
+        {Object.entries(
+          items.reduce((acc, item) => {
+            acc[item.category] = (acc[item.category] || 0) + item.price;
+            return acc;
+          }, {} as Record<string, number>)
+        ).map(([category, total]) => (
+          <div
+            key={category}
+            className="bg-gray-50 dark:bg-gray-800 p-3 rounded-lg"
+          >
+            <span className="text-sm font-medium text-gray-500">
+              {category}
+            </span>
+            <p>{total.toFixed(2)} zł</p>
+          </div>
+        ))}
+      </div>
+
+      <h3 className="text-lg font-medium mb-4">Lista produktów</h3>
       <div className="rounded-lg border">
         <Table>
           <TableHeader>
