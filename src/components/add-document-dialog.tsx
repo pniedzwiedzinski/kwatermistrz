@@ -56,7 +56,7 @@ export default function AddDocumentDialog({
     if (selectedFile) {
       setIsLoading(true);
       try {
-        const response = await fetch("/api", {
+        const postResponse = await fetch("/api", {
           method: "POST",
           body: JSON.stringify({
             mime_type: selectedFile.type,
@@ -64,11 +64,37 @@ export default function AddDocumentDialog({
           }),
         });
 
-        if (!response.ok) {
-          throw new Error("Failed to upload the document. Please try again.");
+        if (!postResponse.ok) {
+          throw new Error(
+            "Failed to initiate the upload process. Please try again."
+          );
         }
 
-        const responseData = await response.json();
+        const { jobId } = await postResponse.json();
+
+        let status = "working";
+        let responseData;
+
+        while (status === "working") {
+          await new Promise((resolve) => setTimeout(resolve, 10000)); // Wait 10 seconds
+          const getResponse = await fetch(`/api?jobId=${jobId}`, {
+            method: "GET",
+          });
+
+          if (!getResponse.ok) {
+            throw new Error(
+              "Failed to check the upload status. Please try again."
+            );
+          }
+
+          const getResult = await getResponse.json();
+          status = getResult.status;
+
+          if (status === "done") {
+            responseData = getResult.output;
+          }
+        }
+
         const documentData: ResponseData = {
           formOfPayment: responseData.pay_by_cash ? "cash" : "bank",
           documentNumber: responseData.document_number,
