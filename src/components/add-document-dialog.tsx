@@ -92,6 +92,9 @@ export default function AddDocumentDialog({
 
           if (status === "done") {
             responseData = getResult.output;
+            if (responseData.error) {
+              throw new Error(`Error in response: ${responseData.error}`);
+            }
           }
         }
 
