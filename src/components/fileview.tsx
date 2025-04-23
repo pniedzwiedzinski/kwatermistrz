@@ -39,13 +39,13 @@ export default function FileView({
 FileViewProps) {
   const FileContent = () => (
     <div className="space-y-6">
-      <div className="w-full h-48 bg-gray-100 dark:bg-gray-900 rounded-lg flex items-center justify-center">
-        {/* <Image
+      {/* <div className="w-full h-48 bg-gray-100 dark:bg-gray-900 rounded-lg flex items-center justify-center">
+        <Image
           src={imageUrl}
           alt="Card preview"
           className="rounded-lg object-cover"
-        /> */}
-      </div>
+        />
+      </div> */}
 
       {!!metadata && (
         <div className="grid grid-cols-2 gap-4">
@@ -61,7 +61,6 @@ FileViewProps) {
         </div>
       )}
 
-      <div className="rounded-lg border p-4"></div>
       <h3 className="text-lg font-medium mb-4">Podsumowanie</h3>
       <div className="grid grid-cols-2 gap-4">
         {Object.entries(

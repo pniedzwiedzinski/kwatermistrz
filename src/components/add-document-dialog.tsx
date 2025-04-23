@@ -99,7 +99,7 @@ export default function AddDocumentDialog({
         }
 
         const documentData: ResponseData = {
-          formOfPayment: responseData.pay_by_cash ? "cash" : "bank",
+          formOfPayment: responseData.pay_by_cash ? "Gotówka" : "Bank",
           documentNumber: responseData.document_number,
           date: responseData.date,
           total: responseData.total_cost,
